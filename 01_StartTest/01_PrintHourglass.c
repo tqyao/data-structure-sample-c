@@ -2,7 +2,12 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-
+/**
+ * 打印沙漏
+ * @brief tqyao
+ *
+ * @return int
+ */
 int main()
 {
     // 用户给与符号数

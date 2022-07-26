@@ -1,4 +1,10 @@
 #include <stdio.h>
+/**
+ * 数组右移
+ * @brief tqyao
+ *
+ * @return int
+ */
 int main()
 {
     int N, M;
