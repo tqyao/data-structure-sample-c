@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #define INITSIZE 5
 
+// 动态顺序表
 typedef struct
 {
     int *data;
