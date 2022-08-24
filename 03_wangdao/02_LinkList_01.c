@@ -311,6 +311,18 @@ LinkList tailInsert(LinkList *L)
     return *L;
 }
 
+// 销毁
+void destoryLinkList(LinkList L)
+{
+    LNode *p = L;
+    while (p != NULL)
+    {
+        p = p->next;
+        free(L);
+        L = p;
+    }
+}
+
 int main()
 {
 
@@ -318,6 +330,10 @@ int main()
     // L = headInsert(&L);
     L = tailInsert(&L);
     showLinkList(L);
+
+    // todo:销毁后还能引用？
+    destoryLinkList(L);
+    // showLinkList(L);
 
     // LinkList list = initLinkList();
     // printf("1point -> %p\n", &list);
