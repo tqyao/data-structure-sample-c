@@ -13,6 +13,32 @@ typedef struct LNode
 
 } LNode, *LinkList;
 
+// 综合练习
+// 2.
+void delAllSpecifyNode(LinkList L, int x);
+void delAllSpecifyNode(LinkList L, int x)
+{
+    // 遍历全表指针
+    LNode *p = L;
+    // 遍历连续出现的x节点
+    LNode *q = NULL;
+    // 要删除的节点
+    LNode *xp = NULL;
+    while (p && p->next != NULL)
+    {
+        q = p->next;
+        // 如果x节点连续出现，查找到非x元素的节点
+        while (q && q->data == x)
+        {
+            xp = q;
+            q = q->next;
+            free(xp);
+        }
+        p->next = q;
+        p = p->next;
+    }
+}
+
 // int initLinkList(LNode *L);
 // LinkList initLinkList(LNode *L);
 
@@ -327,12 +353,13 @@ int main()
 {
 
     LinkList L;
-    // L = headInsert(&L);
-    L = tailInsert(&L);
+    L = headInsert(&L);
+    // L = tailInsert(&L);
+    delAllSpecifyNode(L, 3);
     showLinkList(L);
 
     // todo:销毁后还能引用？
-    destoryLinkList(L);
+    // destoryLinkList(L);
     // showLinkList(L);
 
     // LinkList list = initLinkList();

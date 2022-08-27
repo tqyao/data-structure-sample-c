@@ -13,6 +13,79 @@ typedef struct LNode
 
 } LNode, *LinkList;
 
+void delSpecifyELem(LinkList *L, int x);
+int getLenght(LinkList L);
+
+LNode *delELemOfRecursion(LinkList L, int x);
+void delELemOfRecursion02(LinkList *L, int x);
+
+// 综合应用题
+// 1.
+LNode *delELemOfRecursion(LinkList L, int x)
+{
+    if (L->next != NULL)
+        L->next = delELemOfRecursion(L->next, x);
+    if (L->data == x)
+    {
+        LNode *p = L;
+        free(L);
+        return p->next;
+    }
+    else
+        return L;
+}
+
+// 1.
+void delELemOfRecursion02(LinkList *L, int x)
+{
+    LNode *p = NULL;
+
+    // 递归终止条件 当前节点为空
+    if (*L == NULL)
+        return;
+    if ((*L)->data == x)
+    {
+        p = *L;
+        /*
+         * 递归L->next
+         * 因为是引用，即在函数内对形参的修改直接作用于实参，如传入的是L->next （对应形参L），
+         * 那么对形参L的操作度语句L = L->next; 对应到实参问来看即为L->next = L->next->next;
+         * 可以看出L = L->next;这句已经更改了链表结构，这个时候free§ (P = L->next) 跟原链表已经没有关系了
+         */
+        (*L) = (*L)->next; //假设 链表2->3->4 (*L)实质上是2所在节点的指针域的地址，隐含(L->next =  L->next->next)
+        free(p);
+        delELemOfRecursion02(L, x);
+    }
+    else
+        delELemOfRecursion02(&((*L)->next), x);
+}
+
+void delSpecifyELem(LinkList *L, int x)
+{
+    if ((*L) == NULL)
+    {
+        printf("delSpecifyELem fail,case by : *L is NULL\n");
+        return;
+    }
+    delELemOfRecursion(*L, x);
+    if ((*L)->data == x)
+    {
+        if (getLenght(*L) == 1)
+        {
+            // todo:似乎很不规范，而且报错
+            // free(*L);
+            *L = NULL;
+        }
+        else
+        {
+            LNode *p = (*L)->next;
+            (*L)->next = p->next;
+            (*L)->data = p->data;
+            free(p);
+        }
+    }
+}
+
 LinkList createEmptyNode()
 {
     LinkList list;
@@ -292,12 +365,28 @@ LinkList tailInsert(LinkList *L)
     return *L;
 }
 
+// 递归释放链表
+void destoryOfRecursion(LNode *p)
+{
+    if (p->next != NULL)
+    {
+        destoryOfRecursion(p->next);
+    }
+    free(p);
+}
+
 int main()
 {
     LinkList L = NULL;
 
     // headInsert(&L);
     tailInsert(&L);
+    // destoryOfRecursion(L);
+
+    // delELemOfRecursion(L, 3);
+    // delSpecifyELem(&L, 3);
+    delELemOfRecursion02(&L, 3);
+    showLinkList(L);
     // showLinkList(L);
     // insertNode(&L, 1, 777);
     // showLinkList(L);
