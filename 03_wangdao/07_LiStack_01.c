@@ -40,12 +40,14 @@ int pop(LiStack *S, int *delElem)
     if (isEmpty(p))
     {
         *delElem = (*S)->data;
+        // free：指针所指向的堆内存空间被释放，但指针(*S)所指向的内存地址任然没变，此时指针指向的是未定义的’垃圾内容‘，变成了野指针。
+        /* 野指针：指向内存被释放的内存或者没有访问权限的内存的指针。 */
         free(*S);
         *S = NULL;
         return 1;
     }
 
-    // S length >= 2
+    // S 的 length >= 2 的情况
     (*S)->next = p->next;
     *delElem = (*S)->data;
     (*S)->data = p->data;
