@@ -15,7 +15,7 @@ typedef struct
     int top;
 } SqStack;
 
-// 参数如果不加 * 则只是拷贝一份实参副本，对副本操作并不会影响到实参
+// 参数如果不加 * 则只是拷贝一份实参副本（深拷贝，引用对象属性会被逐一赋值到新地址内存空间存储），对副本操作并不会影响到实参
 // void initStack(SqStack S);
 // void initStack(SqStack S)
 // {
