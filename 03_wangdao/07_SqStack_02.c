@@ -46,9 +46,7 @@ void showStack(SqStack S)
 
     int len = S.top - 1;
     for (int i = len; i >= 0; i--)
-    {
         printf("%d%s", S.data[i], !i ? "\n" : "->");
-    }
 }
 
 int push(SqStack *S, int elem)
