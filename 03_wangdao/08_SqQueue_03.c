@@ -1,10 +1,9 @@
 #include <stdio.h>
 
 #define MAXSIZE 5
-
 /**
  * @brief
- * 对rear指向对尾元素节点
+ * rear 指向对尾元素的下一个节点
  *
  */
 typedef struct
@@ -12,6 +11,9 @@ typedef struct
     int data[MAXSIZE];
     int front;
     int rear;
+    // 标记上一次操作是入栈还是出栈 以区分队满还是队空
+    // 0 代表出栈，1代表入栈
+    int tag;
 } SqQueue;
 
 void initSqQuenue(SqQueue *q);
@@ -25,9 +27,14 @@ int getLenght(SqQueue q);
 
 int getLenght(SqQueue q)
 {
-    // return (q.rear - q.front + MAXSIZE) % MAXSIZE;
-    // （rear - front）会少算一个节点，也就是不包括front节点，所以要加上1
-    return (q.rear - q.front + MAXSIZE) % MAXSIZE + 1;
+    if (q.rear != q.front)
+        return (q.rear - q.front + MAXSIZE) % MAXSIZE;
+    else
+    {
+        if (q.tag)
+            return MAXSIZE;
+        return 0;
+    }
 }
 
 void showSqQuenue(SqQueue q)
@@ -56,8 +63,7 @@ int getHead(SqQueue q)
 
 int isEmpty(SqQueue q)
 {
-    // return q.front == q.rear;
-    return (q.rear + 1) % MAXSIZE == q.front;
+    return q.rear == q.front && !q.tag;
 }
 
 int deQuenue(SqQueue *q, int *delELem)
@@ -70,13 +76,13 @@ int deQuenue(SqQueue *q, int *delELem)
     }
     *delELem = q->data[q->front];
     q->front = (q->front + 1) % MAXSIZE;
+    q->tag = 0;
     return 1;
 }
 
 int isFull(SqQueue q)
 {
-    //牺牲一个节点区分队满与队空
-    return (q.rear + 2) % MAXSIZE == q.front;
+    return q.rear == q.front && q.tag == 1;
 }
 
 int enQuenue(SqQueue *q, int elem)
@@ -86,17 +92,18 @@ int enQuenue(SqQueue *q, int elem)
         printf("enQuenue fail,case by:q is Full\n");
         return 0;
     }
-    // 由于rear指向对尾元素，所以入队时需要先把指针指向下一个空节点在存储数据
-    q->rear = (q->rear + 1) % MAXSIZE;
     q->data[q->rear] = elem;
+    q->rear = (q->rear + 1) % MAXSIZE;
+    q->tag = 1;
     return 1;
 }
 
 void initSqQuenue(SqQueue *q)
 {
     q->front = 0;
-    // 初始对尾指针指向尾节点，此时代表队列为空
-    q->rear = MAXSIZE - 1;
+    q->rear = 0;
+    // tag 区分空满情况，顾空和满的先决条件都可以是 q.rear == q.front;
+    q->tag = 0;
 }
 
 int main()

@@ -4,7 +4,7 @@
 
 /**
  * @brief
- * 对尾指针指向对尾元素的下一个节点
+ * rear指向对尾元素的下一个节点
  *
  */
 typedef struct
@@ -69,7 +69,7 @@ int deQuenue(SqQuenue *q, int *delELem)
 
 int isFull(SqQuenue q)
 {
-    // return q.front == q.rear;
+    // 牺牲一个空间以区分队满与队空
     return (q.rear + 1) % MAXSIZE == q.front;
 }
 
