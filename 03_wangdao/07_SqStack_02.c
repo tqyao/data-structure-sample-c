@@ -94,6 +94,10 @@ int main()
     push(&S, 333);
     showStack(S);
 
+    int delElem = -1;
+    printf("%s,delElem=%d\n", pop(&S, &delElem) ? "出栈成功" : "出栈失败", delElem);
+    showStack(S);
+
     push(&S, 369);
     showStack(S);
 
@@ -101,10 +105,6 @@ int main()
     showStack(S);
 
     push(&S, 999);
-    showStack(S);
-
-    int delElem = -1;
-    printf("%s,delElem=%d\n", pop(&S, &delElem) ? "出栈成功" : "出栈失败", delElem);
     showStack(S);
 
     delElem = -1;
