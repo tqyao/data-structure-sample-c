@@ -84,7 +84,7 @@ void InfixToSuffix(char *infix, char *suffix)
         // 2. 数字直接加入后缀表达式
         else if (currentCh >= '0' && currentCh <= '9')
             suffix[sufIdx++] = currentCh;
-        // 3. 遇到 + - 符号，若栈不为空则依次弹出栈顶元素加入到后缀表达式直到 '(' 后入栈（因为+ - 运算符优先级最低，无论如何都可以后运算）
+        // 3. 遇到 + - 符号，若栈不为空且栈顶元素不为'('则依次弹出栈顶元素加入到后缀表达式直到 '(' 后入栈（因为+ - 运算符优先级最低，无论如何都可以后运算）
         // ，若栈为空则直接入栈
         else if (currentCh == '+' || currentCh == '-')
         {
